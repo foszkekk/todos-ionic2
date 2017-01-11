@@ -7,6 +7,6 @@
 - added colors.json for colorpicker page
 - added models for lists and list items
 - added mock listItems and todolists
-- added helper methods for generating ID and for getting colors from colors.json
+- added helper methods (service) for generating ID and for getting colors from colors.json
 
 * removed home page
