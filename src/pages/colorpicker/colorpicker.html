@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <ion-buttons left margin-left>
+      <button ion-button clear icon-only (click)="closeModal()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title text-center>Pick a color</ion-title>
+    <ion-buttons right margin-right>
+      <button ion-button [ngStyle]="{'background': picked, color: '#263238'}" solid (click)="chooseColor()">
+        DONE
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content [ngStyle]="{'background': picked}">
+  <ion-grid margin-horizontal>
+    <ion-row wrap>
+      <ion-col width-33 offset-10 *ngFor="let color of colors">
+        <button ion-button round small full (click)="pickColor(color.value)"
+                [ngStyle]="{'background': color.value, 'color': '#263238'}">
+          {{color.name}}
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

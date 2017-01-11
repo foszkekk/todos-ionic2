@@ -1,0 +1,78 @@
+[
+  {
+    "name": "red",
+    "value": "#e57373"
+  },
+  {
+    "name": "pink",
+    "value": "#f06292"
+  },
+  {
+    "name": "purple",
+    "value": "#ba68c8"
+  },
+  {
+    "name": "dark purple",
+    "value": "#9575cd"
+  },
+  {
+    "name": "indigo",
+    "value": "#7986cb"
+  },
+  {
+    "name": "blue",
+    "value": "#64b5f6"
+  },
+  {
+    "name": "light blue",
+    "value": "#4fc3f7"
+  },
+  {
+    "name": "cyan",
+    "value": "#4dd0e1"
+  },
+  {
+    "name": "teal",
+    "value": "#4db6ac"
+  },
+  {
+    "name": "green",
+    "value": "#81c784"
+  },
+  {
+    "name": "light green",
+    "value": "#aed581"
+  },
+  {
+    "name": "lime",
+    "value": "#dce775"
+  },
+  {
+    "name": "yellow",
+    "value": "#fff176"
+  },
+  {
+    "name": "amber",
+    "value": "#ffd54f"
+  },
+  {
+    "name": "orange",
+    "value": "#ffb74d"
+  },
+  {
+    "name": "deep orange",
+    "value": "#ff8a65"
+  },
+  {
+    "name": "brown",
+    "value": "#a1887f"
+  },
+  {
+    "name": "grey",
+    "value": "#e0e0e0"
+  },
+  {
+    "name": "blue grey",
+    "value": "#90a4ae"
+  }
+]

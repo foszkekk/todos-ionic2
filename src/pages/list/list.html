@@ -1,0 +1,17 @@
+<ion-item-sliding [ngStyle]="{'background': list.color}">
+  <ion-item [ngStyle]="{'background': list.color}">
+    <h2>{{list.title}}</h2>
+    <p item-right class="text-white">{{listStatus(list.items) + ' finished'}}</p>
+  </ion-item>
+  <ion-item-options side="left">
+    <button ion-button icon-only color="primary" (click)="editList(list)">
+      <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-item-options>
+  <ion-item-options side="right">
+    <button ion-button icon-only color="danger">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+  </ion-item-options>
+</ion-item-sliding>
+
