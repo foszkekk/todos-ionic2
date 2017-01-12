@@ -1,22 +1,27 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams, ModalController} from 'ionic-angular';
+import {LISTS} from "../../models/mock";
+import {Lists} from "../../providers/lists";
 
-/*
-  Generated class for the Trash page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-trash',
   templateUrl: 'trash.html'
 })
 export class TrashPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  lists = [];
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public modalCtrl: ModalController,
+              public listsService: Lists) {
+    this.listsService.getLists().then(data => {
+      this.lists = JSON.parse(data).filter(list => list.removed);
+    });
+  }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TrashPage');
+
   }
 
 }

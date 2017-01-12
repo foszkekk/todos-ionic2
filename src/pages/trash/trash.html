@@ -1,18 +1,20 @@
-<!--
-  Generated template for the Trash page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>trash</ion-title>
+  <ion-navbar color="dark">
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>Trash</ion-title>
+    <ion-buttons *ngIf="lists.length > 0" right>
+      <button ion-button solid color="danger">
+        Delete all
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
+<ion-content>
+  <h3 *ngIf="!lists.length > 0" margin-top text-center>You have no lists in trash</h3>
 
-
-<ion-content padding>
-
+  <ion-list no-lines>
+    <page-list *ngFor="let list of lists" [list]="list"></page-list>
+  </ion-list>
 </ion-content>

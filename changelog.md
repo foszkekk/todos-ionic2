@@ -1,3 +1,13 @@
+## v0.0.2
+
+- added localStorage database
+- added side menu functionality
+- added viewList page
+- added lists service (get all, add, update, remove)
+- added creating, editing and removing lists functionality
+- added creating new list items functionality
+- added TrashPage (WIP)
+
 ## v0.0.1
 
 - added lists page (list of TodoLists)

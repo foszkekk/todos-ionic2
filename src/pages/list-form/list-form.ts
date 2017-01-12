@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, NavParams, ViewController, ModalController} from 'ionic-angular';
 import {Helpers} from "../../providers/helpers";
 import {ColorpickerPage} from '../colorpicker/colorpicker';
+import {Lists} from "../../providers/lists";
 
 @Component({
   selector: 'page-list-form',
@@ -12,14 +13,15 @@ export class ListFormPage {
   pageTitle = '';
   list;
   items = [];
-  changedColor = false;
+  changedColor;
   mode = '';
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public viewCtrl: ViewController,
               public helpers: Helpers,
-              public modalCtrl: ModalController) {
+              public modalCtrl: ModalController,
+              public listsService: Lists) {
     this.pageTitle = navParams.get('title');
     this.list = navParams.get('list') ||
       {
@@ -31,8 +33,9 @@ export class ListFormPage {
         removed: false,
       };
     this.mode = navParams.get('mode');
-    if(this.list){
+    if (this.list) {
       this.items = this.list.items;
+      this.changedColor = this.list.color !== '#f4f4f4'
     } else {
       this.items = [];
     }
@@ -45,8 +48,8 @@ export class ListFormPage {
     this.viewCtrl.dismiss();
   }
 
-  getFormMode(){
-    if(this.mode === 'edit'){
+  getFormMode() {
+    if (this.mode === 'edit') {
       return 'Save List';
     } else {
       return 'Create List'
@@ -89,10 +92,14 @@ export class ListFormPage {
     colorpicker.present();
   }
 
-  createList(list){
+  saveList(list) {
     list.createdAt = Date.now();
-    console.log(this.list);
-    this.viewCtrl.dismiss(this.list);
+    if (this.mode === 'edit') {
+      this.listsService.updateList(list);
+    } else {
+      this.listsService.addList(list);
+    }
+    this.viewCtrl.dismiss({list: list});
   }
 
 }

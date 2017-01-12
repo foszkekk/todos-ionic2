@@ -1,10 +1,10 @@
 <ion-menu [content]="content">
   <ion-list>
-    <button ion-item>
+    <button ion-item (click)="openPage('Lists')" menuClose>
       <ion-icon name="list-box" item-left></ion-icon>
       Lists
     </button>
-    <button ion-item>
+    <button ion-item (click)="openPage('Trash')" menuClose>
       <ion-icon name="trash" item-left></ion-icon>
       Trash
     </button>

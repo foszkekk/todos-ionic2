@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <ion-title text-center>{{list.title}} <small>({{listStatus()}})</small></ion-title>
+    <ion-buttons end>
+      <button ion-button solid color="secondary" margin-right (click)="addListItem(list)">
+        New item
+      </button>
+      <button ion-button clear icon-only (click)="openMenu(list)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding [ngStyle]="{'background': list.color}">
+<ion-list>
+  <ion-item *ngFor="let item of list.items" [ngStyle]="{'background': list.color}">
+    <h2 [ngClass]="{'finished': item.isFinished}">{{item.text}}</h2>
+    <ion-buttons item-right>
+      <button ion-button icon-only clear (click)="toggleFinished(item)">
+        <ion-icon name="{{item.isFinished ? 'checkbox' : 'square-outline'}}" color="dark"></ion-icon>
+      </button>
+      <button ion-button icon-only color="dark" small solid (click)="removeListItem(item._id)">
+        <ion-icon name="close-circle" color="danger"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-item>
+</ion-list>
+</ion-content>

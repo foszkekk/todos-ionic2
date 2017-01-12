@@ -1,17 +1,27 @@
-<ion-header>
+
+<ion-content><ion-header>
   <ion-navbar color="dark">
     <button ion-button icon-only menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title text-center>Todo Lists</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="newList()">
-        <ion-icon name="add-circle"></ion-icon>
+      <button ion-button solid color="secondary" (click)="newList()">
+        New list
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content>
+  <h3 *ngIf="!lists.length > 0" margin-top text-center>You have no lists</h3>
+  <ion-grid *ngIf="!lists.length > 0">
+    <ion-row>
+      <ion-col text-center>
+        <button ion-button margin-top round color="secondary" (click)="newList()">
+          Create one
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-list no-lines>
     <page-list *ngFor="let list of lists" [list]="list"></page-list>
   </ion-list>
