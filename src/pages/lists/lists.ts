@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {NavController, NavParams, ModalController} from 'ionic-angular';
+import {NavController, NavParams, ModalController, ToastController} from 'ionic-angular';
 import {List} from '../../models/list';
 import {LISTS, ITEMS} from "../../models/mock";
 import {ListPage} from '../list/list';
@@ -19,7 +19,8 @@ export class ListsPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public modalCtrl: ModalController,
-              public listsService: Lists) {
+              public listsService: Lists,
+              public toastCtrl: ToastController) {
     this.getLists();
   }
 
@@ -27,9 +28,10 @@ export class ListsPage {
 
   }
 
-  getLists(){
-    this.listsService.getLists().then(data=>{
-      this.lists = JSON.parse(data).filter(list => !list.removed);
+  getLists() {
+    this.listsService.getLists().then(data => {
+      if (data)
+        this.lists = JSON.parse(data).filter(list => !list.removed);
     });
   }
 
@@ -37,12 +39,24 @@ export class ListsPage {
     let modal = this.modalCtrl.create(ListFormPage, {title: 'New List', mode: 'create'});
 
     modal.onDidDismiss(data => {
-      if(data){
+      if (data) {
         this.lists.push(data.list);
+        this.showToast('List successfully added');
       }
     });
 
     modal.present();
+  }
+
+  showToast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'bottom',
+      showCloseButton: true,
+      closeButtonText: 'OK'
+    });
+    toast.present();
   }
 
 }

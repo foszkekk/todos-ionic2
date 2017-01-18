@@ -10,6 +10,7 @@ import {ColorpickerPage} from "../pages/colorpicker/colorpicker";
 import {Lists} from "../providers/lists";
 import {Storage} from '@ionic/storage';
 import {ViewListPage} from "../pages/view-list/view-list";
+import {IntroPage} from "../pages/intro/intro";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {ViewListPage} from "../pages/view-list/view-list";
     ListPage,
     TrashPage,
     ColorpickerPage,
-    ViewListPage
+    ViewListPage,
+    IntroPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -32,7 +34,8 @@ import {ViewListPage} from "../pages/view-list/view-list";
     ListPage,
     TrashPage,
     ColorpickerPage,
-    ViewListPage
+    ViewListPage,
+    IntroPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Helpers, Lists, Storage]
 })

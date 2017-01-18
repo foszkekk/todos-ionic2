@@ -99,7 +99,7 @@ export class ListFormPage {
     } else {
       this.listsService.addList(list);
     }
-    this.viewCtrl.dismiss({list: list});
+    this.viewCtrl.dismiss({list: list, mode: this.mode});
   }
 
 }

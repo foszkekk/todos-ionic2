@@ -1,5 +1,4 @@
-
-<ion-content><ion-header>
+<ion-header>
   <ion-navbar color="dark">
     <button ion-button icon-only menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -12,10 +11,11 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-  <h3 *ngIf="!lists.length > 0" margin-top text-center>You have no lists</h3>
+<ion-content>
   <ion-grid *ngIf="!lists.length > 0">
     <ion-row>
       <ion-col text-center>
+        <h3 *ngIf="!lists.length > 0" margin-top text-center>You have no lists</h3>
         <button ion-button margin-top round color="secondary" (click)="newList()">
           Create one
         </button>

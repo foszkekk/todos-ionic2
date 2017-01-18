@@ -3,20 +3,20 @@
     <h2 (click)="viewList(list)">{{list.title}}</h2>
     <p item-right [ngClass]="{'text-white': list.color !== '#f4f4f4'}">{{listStatus(list.items) + ' finished'}}</p>
   </ion-item>
-  <ion-item-options side="left">
-    <button *ngIf="!list.removed" ion-button icon-only color="primary" (click)="editList(list)">
+  <ion-item-options side="left" *ngIf="!list.removed">
+    <button ion-button icon-only color="primary" (click)="editList(list)">
       <ion-icon name="create"></ion-icon>
-    </button>
-    <button *ngIf="list.removed" ion-button icon-only color="primary" (click)="toggleRemoved(list)">
-      <ion-icon name="undo"></ion-icon>
     </button>
   </ion-item-options>
   <ion-item-options side="right">
-    <button *ngIf="!list.removed" ion-button icon-only color="danger" (click)="toggleRemoved(list)">
+    <button ion-button icon-only color="danger" (click)="deleteList(list)">
+      <ion-icon name="close-circle"></ion-icon>
+    </button>
+    <button ion-button icon-only *ngIf="!list.removed" color="danger" (click)="toggleRemoved(list)" (press)="deleteList(list)">
       <ion-icon name="trash"></ion-icon>
     </button>
-    <button *ngIf="list.removed" ion-button icon-only color="danger" (click)="deleteList(list)">
-      <ion-icon name="close-circle"></ion-icon>
+    <button ion-button icon-only *ngIf="list.removed" color="primary" (click)="toggleRemoved(list)">
+      <ion-icon name="undo"></ion-icon>
     </button>
   </ion-item-options>
 </ion-item-sliding>

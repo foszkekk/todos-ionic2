@@ -1,0 +1,44 @@
+<ion-toolbar *ngIf="!lastSlide">
+  <ion-buttons right>
+    <button clear ion-text color="blue-grey500" ion-button (click)="skip()">
+      SKIP
+    </button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content>
+  <ion-slides (ionSlideDidChange)="slideChanged()" pager="true">
+    <ion-slide padding>
+      <h1 margin-vertical ion-text color="primary">TODOS</h1>
+      <p margin-vertical ion-text color="blue-grey">Manage you todo lists.</p>
+    </ion-slide>
+
+    <ion-slide padding>
+      <h1 margin-vertical ion-text color="primary">Navigation</h1>
+      <p margin-vertical ion-text color="blue-grey">You can swipe your lists to reveal options</p>
+    </ion-slide>
+
+    <ion-slide padding>
+      <h1 margin-vertical ion-text color="primary">Managing you lists</h1>
+      <p margin-vertical ion-text color="blue-grey">You can create, edit and remove your lists.</p>
+      <small ion-text color="blue-grey500" margin-vertical> Tip: Long press remove button to instantly delete list
+        instead of
+        moving it to
+        trash
+      </small>
+    </ion-slide>
+    <ion-slide padding>
+      <h1 margin-vertical ion-text color="primary">I know everything</h1>
+      <p margin-vertical ion-text color="blue-grey">Click the button to get started</p>
+      <button ion-button round color="secondary" margin-horizontal (click)="finish()">
+        GET STARTED
+      </button>
+      <p>
+        <small ion-text color="blue-grey500" margin-vertical>
+          Tip: You can always go to help for more info
+        </small>
+      </p>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>

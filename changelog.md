@@ -1,3 +1,10 @@
+## v0.0.3
+- updated ionic to 2.0.0-rc.5
+- added intro slides
+- added firstLaunch to storage for intro slides
+- added animation when navigating to other page
+- added toasts with info when creating/updating/removing lists
+
 ## v0.0.2
 
 - added localStorage database
