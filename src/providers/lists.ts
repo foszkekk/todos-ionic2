@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Storage} from '@ionic/storage';
+import {Observable} from "rxjs";
 @Injectable()
 export class Lists {
 
   constructor(public http: Http, private storage: Storage) {
   }
 
-  getLists() {
+  getLists(){
     return this.storage.get('lists');
   }
 
@@ -22,10 +23,10 @@ export class Lists {
     });
   }
 
-  updateList(list){
+  updateList(list) {
     let lists;
     let newList = list;
-    this.getLists().then(data =>{
+    this.getLists().then(data => {
       lists = JSON.parse(data);
       let index = lists.findIndex(x => x._id === newList._id);
       lists[index] = newList;
@@ -33,9 +34,9 @@ export class Lists {
     });
   }
 
-  deleteList(list){
+  deleteList(list) {
     let lists;
-    this.getLists().then(data =>{
+    this.getLists().then(data => {
       lists = JSON.parse(data);
       let index = lists.findIndex(x => x._id === list._id);
       lists.splice(index, 1);

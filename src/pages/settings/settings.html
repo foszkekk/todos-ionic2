@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>Settings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>Show toasts</ion-label>
+      <ion-toggle color="secondary" checked="{{userSettings.showToasts}}" [(ngModel)]="userSettings.showToasts"
+                  (click)="updateSettings()"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Restore default</ion-label>
+      <button ion-button item-right solid color="danger" (click)="restoreDefaults()">Default</button>
+    </ion-item>
+    <ion-item>
+      <ion-label>Clear all data</ion-label>
+      <button ion-button item-right solid color="danger" (click)="clearData()">Clear</button>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

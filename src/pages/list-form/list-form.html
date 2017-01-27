@@ -16,20 +16,20 @@
 
 <ion-content padding [ngStyle]="{'background': list.color}">
   <ion-item [ngStyle]="{'background': list.color}">
-    <ion-label floating [ngClass]="{'text-white': changedColor}">List title</ion-label>
-    <ion-input [(ngModel)]="list.title" type="text"></ion-input>
+    <ion-label floating >List title</ion-label>
+    <ion-input [(ngModel)]="list.title" type="text" maxlength="96"></ion-input>
   </ion-item>
   <h4 text-center>Items</h4>
   <ion-item [ngStyle]="{'background': list.color}">
-    <ion-label floating [ngClass]="{'text-white': changedColor}">Item text</ion-label>
-    <ion-input #itemText (keypress)="addListItem($event)" type="text"></ion-input>
+    <ion-label floating >Item text</ion-label>
+    <ion-input #itemText (keypress)="addListItem($event)" type="text" maxlength="128"></ion-input>
     <button ion-button icon-only small>
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-item>
   <ion-list *ngIf="items.length > 0" no-lines>
     <ion-item *ngFor="let item of items" [ngStyle]="{'background': list.color}">
-      <h2>{{item.text}}</h2>
+      <h3 class="todo-item" [ngClass]="{'finished': item.isFinished}">{{item.text}}</h3>
       <ion-buttons item-right>
         <button ion-button icon-only clear (click)="toggleFinished(item)">
           <ion-icon name="{{item.isFinished ? 'checkbox' : 'square-outline'}}" color="dark"></ion-icon>

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {
   NavController, NavParams, ModalController, ActionSheetController, Platform,
-  AlertController, ToastController
+  AlertController
 } from 'ionic-angular';
 import {ListFormPage} from "../list-form/list-form";
 import {Lists} from "../../providers/lists";
@@ -23,8 +23,7 @@ export class ViewListPage {
               public listsService: Lists,
               public actionSheetCtrl: ActionSheetController,
               public alertCtrl: AlertController,
-              public helpers: Helpers,
-              public toastCtrl: ToastController) {
+              public helpersService: Helpers) {
     this.list = this.navParams.get('list');
   }
 
@@ -35,8 +34,9 @@ export class ViewListPage {
   editList(list) {
     let editModal = this.modalCtrl.create(ListFormPage, {list: list, mode: 'edit', title: 'Edit List'});
 
-    editModal.onDidDismiss(() => {
-      this.showToast('List successfully updated');
+    editModal.onDidDismiss(modalList => {
+      if (modalList)
+        this.helpersService.showToast('List successfully updated');
     });
 
     editModal.present();
@@ -91,7 +91,7 @@ export class ViewListPage {
             list.removed = true;
             this.listsService.updateList(list);
             this.navCtrl.pop();
-            this.showToast(`${list.title} moved to trash`)
+            this.helpersService.showToast(`${list.title} moved to trash`);
           }
         }
       ]
@@ -102,10 +102,10 @@ export class ViewListPage {
   openColorPicker(list) {
     let colorpicker = this.modalCtrl.create(ColorpickerPage);
     colorpicker.onDidDismiss((color) => {
-      if (list.color !== color) {
+      if (color && list.color !== color) {
         list.color = color;
         this.listsService.updateList(list);
-        this.showToast('List successfully updated');
+        this.helpersService.showToast('List successfully updated');
       }
     });
 
@@ -133,30 +133,19 @@ export class ViewListPage {
           text: 'Save',
           handler: data => {
             this.list.items.push({
-              _id: this.helpers.getRandomID(16),
+              _id: this.helpersService.getRandomID(16),
               text: data.text.trim(),
               author: "author",
               isFinished: false,
               createdAt: Date.now(),
             });
             this.listsService.updateList(list);
-            this.showToast('List successfully updated');
+            this.helpersService.showToast('List successfully updated');
           }
         }
       ]
     });
     alert.present();
-  }
-
-  showToast(message) {
-    let toast = this.toastCtrl.create({
-      message: message,
-      duration: 3000,
-      position: 'bottom',
-      showCloseButton: true,
-      closeButtonText: 'OK'
-    });
-    toast.present();
   }
 
   ionViewDidLoad() {

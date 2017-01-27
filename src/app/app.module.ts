@@ -11,6 +11,8 @@ import {Lists} from "../providers/lists";
 import {Storage} from '@ionic/storage';
 import {ViewListPage} from "../pages/view-list/view-list";
 import {IntroPage} from "../pages/intro/intro";
+import {SettingsPage} from "../pages/settings/settings";
+import {Settings} from "../providers/settings";
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import {IntroPage} from "../pages/intro/intro";
     ColorpickerPage,
     ViewListPage,
     IntroPage,
+    SettingsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -35,9 +38,10 @@ import {IntroPage} from "../pages/intro/intro";
     TrashPage,
     ColorpickerPage,
     ViewListPage,
-    IntroPage
+    IntroPage,
+    SettingsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Helpers, Lists, Storage]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Helpers, Lists, Storage, Settings]
 })
 export class AppModule {
 }

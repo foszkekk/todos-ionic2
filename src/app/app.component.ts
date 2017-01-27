@@ -1,14 +1,17 @@
 import {Component, ViewChild} from '@angular/core';
-import {Platform, Nav} from 'ionic-angular';
+import {Platform, Nav, ViewController} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {ListsPage} from "../pages/lists/lists";
 import {TrashPage} from "../pages/trash/trash";
-import {Storage} from '@ionic/storage';
 import {IntroPage} from "../pages/intro/intro";
+import {SettingsPage} from "../pages/settings/settings";
+import {Settings} from "../providers/settings";
+import {Lists} from "../providers/lists";
 
 const PAGES = [
   {name: 'Lists', component: ListsPage},
-  {name: 'Trash', component: TrashPage}
+  {name: 'Trash', component: TrashPage},
+  {name: 'Settings', component: SettingsPage}
 ];
 
 @Component({
@@ -19,7 +22,9 @@ export class MyApp {
   @ViewChild(Nav) nav;
   rootPage;
 
-  constructor(platform: Platform, public storage: Storage) {
+  constructor(platform: Platform,
+              public settingsService: Settings,
+              public listsService: Lists) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -27,25 +32,29 @@ export class MyApp {
       //Splashscreen.hide();
     });
 
-    this.storage.get('firstLaunch').then(v => {
-      if (v === null || v === undefined || v === true) {
-        this.storage.set('firstLaunch', true);
+    this.settingsService.getSettings().then(data => {
+      if (data && data.firstLaunch === false)
+        this.rootPage = ListsPage;
+      else
         this.rootPage = IntroPage;
-      } else {
-        this.rootPage = ListsPage
-      }
-    })
+    });
 
-    this.storage.get('lists').then(data => {
+    this.listsService.getLists().then(data => {
       if (!data) {
-        this.storage.set('lists', JSON.stringify([]));
+        this.settingsService.clearData();
       }
-    })
+    });
 
   }
 
   openPage(name) {
     let p = PAGES.find(page => page.name === name);
-    this.nav.setRoot(p.component, {}, {animate: true, direction: 'forward'});
+    //check if current page is the same as one that user wants to open
+    if (!(this.nav.getActive().instance instanceof p.component)) {
+      setTimeout(() => {
+        this.nav.setRoot(p.component, {}, {animate: true, direction: 'forward'});
+      }, 400);
+    }
+
   }
 }

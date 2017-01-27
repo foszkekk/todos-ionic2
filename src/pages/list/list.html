@@ -1,7 +1,7 @@
 <ion-item-sliding [ngStyle]="{'background': list.color}">
   <ion-item [ngStyle]="{'background': list.color}">
     <h2 (click)="viewList(list)">{{list.title}}</h2>
-    <p item-right [ngClass]="{'text-white': list.color !== '#f4f4f4'}">{{listStatus(list.items) + ' finished'}}</p>
+    <p item-right>{{listStatus(list.items) + ' finished'}}</p>
   </ion-item>
   <ion-item-options side="left" *ngIf="!list.removed">
     <button ion-button icon-only color="primary" (click)="editList(list)">
@@ -9,7 +9,7 @@
     </button>
   </ion-item-options>
   <ion-item-options side="right">
-    <button ion-button icon-only color="danger" (click)="deleteList(list)">
+    <button ion-button icon-only color="danger" *ngIf="list.removed" (click)="deleteList(list)">
       <ion-icon name="close-circle"></ion-icon>
     </button>
     <button ion-button icon-only *ngIf="!list.removed" color="danger" (click)="toggleRemoved(list)" (press)="deleteList(list)">

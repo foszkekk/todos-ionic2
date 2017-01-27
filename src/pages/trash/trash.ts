@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, ModalController, AlertController, ToastController} from 'ionic-angular';
-import {LISTS} from "../../models/mock";
+import {AlertController, Events} from 'ionic-angular';
 import {Lists} from "../../providers/lists";
+import {Helpers} from "../../providers/helpers";
 
 @Component({
   selector: 'page-trash',
@@ -11,14 +11,15 @@ export class TrashPage {
 
   lists = [];
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public modalCtrl: ModalController,
-              public listsService: Lists,
+  constructor(public listsService: Lists,
               public alertCtrl: AlertController,
-              public toastCtrl: ToastController) {
-    this.listsService.getLists().then(data => {
-      this.lists = JSON.parse(data).filter(list => list.removed);
+              public helpersService: Helpers,
+              public events: Events) {
+    this.getLists();
+    this.events.subscribe('list:removedForever', (list) => {
+      this.getLists();
+      console.log('list removed\n' + list);
+      this.lists.splice(this.lists.findIndex(l => l._id === list._id), 1);
     });
   }
 
@@ -27,9 +28,10 @@ export class TrashPage {
   }
 
   deleteAll() {
+    let msgs = [`Delete ${this.lists.length === 1 ? '1 list' : `${this.lists.length} lists`} forever?`, `${this.lists.length === 1 ? '1 list' : `${this.lists.length} lists`} removed forever`];
     let alert = this.alertCtrl.create({
       title: 'Delete forever',
-      message: `Delete ${this.lists.length} lists forever?`,
+      message: msgs[0],
       buttons: [
         {
           text: 'Cancel',
@@ -38,10 +40,9 @@ export class TrashPage {
         {
           text: 'Delete',
           handler: () => {
-            this.showToast(`${this.lists.length} lists has been removed forever`);
+            this.helpersService.showToast(msgs[1]);
             this.lists.forEach(list => {
               this.listsService.deleteList(list);
-              console.log('lul');
             });
           }
         }
@@ -51,15 +52,10 @@ export class TrashPage {
     alert.present();
   }
 
-  showToast(message) {
-    let toast = this.toastCtrl.create({
-      message: message,
-      duration: 3000,
-      position: 'bottom',
-      showCloseButton: true,
-      closeButtonText: 'OK'
+  getLists() {
+    this.listsService.getLists().then(data => {
+      this.lists = JSON.parse(data).filter(list => list.removed);
     });
-    toast.present();
   }
 
 }

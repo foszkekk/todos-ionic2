@@ -9,11 +9,9 @@ import {Lists} from "../../providers/lists";
   templateUrl: 'list-form.html'
 })
 export class ListFormPage {
-
   pageTitle = '';
   list;
   items = [];
-  changedColor;
   mode = '';
 
   constructor(public navCtrl: NavController,
@@ -35,7 +33,6 @@ export class ListFormPage {
     this.mode = navParams.get('mode');
     if (this.list) {
       this.items = this.list.items;
-      this.changedColor = this.list.color !== '#f4f4f4'
     } else {
       this.items = [];
     }
@@ -83,9 +80,10 @@ export class ListFormPage {
   openColorPicker(list) {
     let colorpicker = this.modalCtrl.create(ColorpickerPage);
     colorpicker.onDidDismiss((color) => {
-      if (list.color !== color) {
+      if (color && list.color !== color) {
         list.color = color;
-        this.changedColor = true;
+      } else {
+        list.color = '#f4f4f4';
       }
     });
 
@@ -99,7 +97,7 @@ export class ListFormPage {
     } else {
       this.listsService.addList(list);
     }
-    this.viewCtrl.dismiss({list: list, mode: this.mode});
+    this.viewCtrl.dismiss({modalList: list});
   }
 
 }

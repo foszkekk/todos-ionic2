@@ -15,7 +15,7 @@
 <ion-content padding [ngStyle]="{'background': list.color}">
 <ion-list>
   <ion-item *ngFor="let item of list.items" [ngStyle]="{'background': list.color}">
-    <h2 [ngClass]="{'finished': item.isFinished}">{{item.text}}</h2>
+    <h3 [ngClass]="{'finished': item.isFinished}" class="todo-item">{{item.text}}</h3>
     <ion-buttons item-right>
       <button ion-button icon-only clear (click)="toggleFinished(item)">
         <ion-icon name="{{item.isFinished ? 'checkbox' : 'square-outline'}}" color="dark"></ion-icon>

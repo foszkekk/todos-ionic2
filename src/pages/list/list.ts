@@ -1,8 +1,9 @@
 import {Component, Input} from '@angular/core';
-import {NavController, NavParams, ModalController, AlertController, ToastController} from 'ionic-angular';
+import {NavController, ModalController, AlertController, Events} from 'ionic-angular';
 import {ListFormPage} from "../list-form/list-form";
 import {Lists} from "../../providers/lists";
 import {ViewListPage} from "../view-list/view-list";
+import {Helpers} from "../../providers/helpers";
 
 @Component({
   selector: 'page-list',
@@ -13,11 +14,11 @@ export class ListPage {
   @Input('list') list = {};
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
               public modalCtrl: ModalController,
               public listsService: Lists,
               public alertCtrl: AlertController,
-              public toastCtrl: ToastController) {
+              public helpersService: Helpers,
+              public events: Events) {
   }
 
   listStatus(items) {
@@ -27,8 +28,9 @@ export class ListPage {
   editList(list) {
     let editModal = this.modalCtrl.create(ListFormPage, {list: list, mode: 'edit', title: 'Edit List'});
 
-    editModal.onDidDismiss(() => {
-      this.showToast('List successfully updated');
+    editModal.onDidDismiss(modalList => {
+      if (modalList)
+        this.helpersService.showToast('List successfully updated');
     });
 
     editModal.present();
@@ -38,9 +40,9 @@ export class ListPage {
     list.removed = !list.removed;
     this.listsService.updateList(list);
     if (list.removed)
-      this.showToast(`${list.title} moved to trash`);
+      this.helpersService.showToast('List moved to trash');
     else
-      this.showToast(`${list.title} restored from trash`)
+      this.helpersService.showToast('List restored from trash')
   }
 
   deleteList(list) {
@@ -55,8 +57,9 @@ export class ListPage {
         {
           text: 'Delete',
           handler: () => {
+            this.events.publish('list:deleteForever', list);
             this.listsService.deleteList(list);
-            this.showToast(`${list.title} has been removed forever`);
+            this.helpersService.showToast('List removed forever');
           }
         }
       ]
@@ -67,18 +70,6 @@ export class ListPage {
   viewList(list) {
     this.navCtrl.push(ViewListPage, {list: list});
   }
-
-  showToast(message) {
-    let toast = this.toastCtrl.create({
-      message: message,
-      duration: 3000,
-      position: 'bottom',
-      showCloseButton: true,
-      closeButtonText: 'OK'
-    });
-    toast.present();
-  }
-
 
   ionViewDidLoad() {
 

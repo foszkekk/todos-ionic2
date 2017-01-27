@@ -1,7 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
-import {NavController, Slides} from 'ionic-angular';
+import {NavController, Slides, MenuController} from 'ionic-angular';
 import {Storage} from '@ionic/storage';
 import {ListsPage} from '../lists/lists';
+import {Settings} from "../../providers/settings";
+import set = Reflect.set;
 
 @Component({
   selector: 'page-intro',
@@ -14,11 +16,15 @@ export class IntroPage {
   lastSlide = false;
 
   constructor(public navCtrl: NavController,
-              public storage: Storage) {
+              public settingsService: Settings,
+              public menu: MenuController) {
   }
 
   finish() {
-    this.storage.set('firstLaunch', false);
+    this.settingsService.getSettings().then(settings => {
+      settings.firstLaunch = false;
+      this.settingsService.updateSettings(settings);
+    });
     this.navCtrl.setRoot(ListsPage, {}, {animate: true, direction: 'forward'});
   }
 
@@ -31,6 +37,14 @@ export class IntroPage {
   }
 
   ionViewDidLoad() {
+  }
+
+  ionViewDidEnter() {
+    this.menu.enable(false);
+  }
+
+  ionViewDidLeave(){
+    this.menu.enable(true);
   }
 
 }

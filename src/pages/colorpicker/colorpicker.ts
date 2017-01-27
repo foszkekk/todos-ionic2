@@ -9,7 +9,7 @@ import {Helpers} from "../../providers/helpers";
 export class ColorpickerPage {
 
   colors = [];
-  picked = "#f4f4f4";
+  picked = null;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public helpers: Helpers, public viewCtrl: ViewController) {
@@ -18,15 +18,18 @@ export class ColorpickerPage {
     });
   }
 
-  pickColor(value){
+  pickColor(value) {
     this.picked = value;
   }
 
-  chooseColor(){
-    this.viewCtrl.dismiss(this.picked);
+  chooseColor() {
+    if (this.picked)
+      this.viewCtrl.dismiss(this.picked);
+    else
+      this.viewCtrl.dismiss();
   }
 
-  closeModal(){
+  closeModal() {
     this.viewCtrl.dismiss();
   }
 
