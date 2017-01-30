@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, ViewController, ModalController} from 'ionic-angular';
+import {NavParams, ViewController, ModalController} from 'ionic-angular';
 import {Helpers} from "../../providers/helpers";
 import {ColorpickerPage} from '../colorpicker/colorpicker';
 import {Lists} from "../../providers/lists";
@@ -14,8 +14,7 @@ export class ListFormPage {
   items = [];
   mode = '';
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
+  constructor(public navParams: NavParams,
               public viewCtrl: ViewController,
               public helpers: Helpers,
               public modalCtrl: ModalController,

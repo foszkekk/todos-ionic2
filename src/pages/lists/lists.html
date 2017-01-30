@@ -3,7 +3,7 @@
     <button ion-button icon-only menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title text-center>Todo Lists</ion-title>
+    <ion-title>Todo Lists</ion-title>
     <ion-buttons end>
       <button ion-button solid color="secondary" (click)="newList()">
         New list
@@ -23,6 +23,6 @@
     </ion-row>
   </ion-grid>
   <ion-list no-lines>
-    <page-list *ngFor="let list of lists" [list]="list"></page-list>
+    <page-list *ngFor="let list of lists" (delete)="removeList(list)" [list]="list"></page-list>
   </ion-list>
 </ion-content>

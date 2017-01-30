@@ -3,6 +3,7 @@ import {Http} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {ToastController} from "ionic-angular";
 import {Settings} from "./settings";
+
 @Injectable()
 export class Helpers {
 
@@ -26,7 +27,7 @@ export class Helpers {
       .then(res => res.json());
   }
 
-  public showToast(message) {
+  public showToast(message: string) {
     this.settingsService.getSettings().then((settings) => {
       if (settings.showToasts) {
         let toast = this.toastCtrl.create({

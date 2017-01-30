@@ -1,47 +1,54 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
-import 'rxjs/add/operator/map';
 import {Storage} from '@ionic/storage';
-import {Observable} from "rxjs";
+import 'rxjs/add/operator/map';
+import {List} from "../models/list";
 @Injectable()
 export class Lists {
 
-  constructor(public http: Http, private storage: Storage) {
+  constructor(private storage: Storage) {
   }
 
-  getLists(){
-    return this.storage.get('lists');
+  getAllLists(): Promise<List[]> {
+    return this.storage.get('lists').then(data => JSON.parse(data));
   }
 
-  addList(list) {
-    let lists;
-    let newList = list;
-    this.getLists().then(data => {
-      lists = JSON.parse(data);
-      lists.push(newList);
+  getLists(removed: boolean): Promise<List[]> {
+    return this.storage.get('lists')
+      .then(data => JSON.parse(data).filter(list => removed ? list.removed : !list.removed));
+  }
+
+  addList(list: List) {
+    this.getAllLists().then((lists) => {
+      lists.push(list);
       this.storage.set('lists', JSON.stringify(lists));
     });
   }
 
-  updateList(list) {
-    let lists;
-    let newList = list;
-    this.getLists().then(data => {
-      lists = JSON.parse(data);
-      let index = lists.findIndex(x => x._id === newList._id);
-      lists[index] = newList;
+  updateList(list: List) {
+    this.getAllLists().then((lists) => {
+      let index = lists.findIndex(x => x._id === list._id);
+      lists[index] = list;
       this.storage.set('lists', JSON.stringify(lists));
     });
   }
 
-  deleteList(list) {
-    let lists;
-    this.getLists().then(data => {
-      lists = JSON.parse(data);
+  deleteList(list: List) {
+    this.getAllLists().then((lists) => {
       let index = lists.findIndex(x => x._id === list._id);
       lists.splice(index, 1);
       this.storage.set('lists', JSON.stringify(lists));
     });
   }
+
+  deleteLists(lists: List[]) {
+    this.getAllLists().then(data => {
+      for (let list of lists) {
+        let index = data.findIndex(x => x._id === list._id);
+        data.splice(index, 1);
+      }
+      this.storage.set('lists', JSON.stringify(data));
+    });
+  }
+
 
 }

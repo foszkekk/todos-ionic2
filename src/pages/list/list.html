@@ -12,7 +12,8 @@
     <button ion-button icon-only color="danger" *ngIf="list.removed" (click)="deleteList(list)">
       <ion-icon name="close-circle"></ion-icon>
     </button>
-    <button ion-button icon-only *ngIf="!list.removed" color="danger" (click)="toggleRemoved(list)" (press)="deleteList(list)">
+    <button ion-button icon-only *ngIf="!list.removed" color="danger" (click)="toggleRemoved(list)"
+            (press)="deleteList(list)">
       <ion-icon name="trash"></ion-icon>
     </button>
     <button ion-button icon-only *ngIf="list.removed" color="primary" (click)="toggleRemoved(list)">

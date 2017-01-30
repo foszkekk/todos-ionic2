@@ -1,9 +1,6 @@
-##TODOS
-- observables instead of promises in services
-- event handling for removing lists and stuff for reactivity
-- state managament (ie. when pressing on list state = 'select'
-and clicking on list adds it to 'selected' array, then user can
-remove all selected lists)
+## v0.0.5
+- visual refactors + removed unused imports
+- removed mocks.ts
 
 
 ## v0.0.4

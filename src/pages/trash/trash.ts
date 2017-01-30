@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AlertController, Events} from 'ionic-angular';
 import {Lists} from "../../providers/lists";
 import {Helpers} from "../../providers/helpers";
+import {List} from "../../models/list";
 
 @Component({
   selector: 'page-trash',
@@ -9,22 +10,22 @@ import {Helpers} from "../../providers/helpers";
 })
 export class TrashPage {
 
-  lists = [];
+  lists: List[] = [];
 
   constructor(public listsService: Lists,
               public alertCtrl: AlertController,
               public helpersService: Helpers,
               public events: Events) {
-    this.getLists();
-    this.events.subscribe('list:removedForever', (list) => {
-      this.getLists();
-      console.log('list removed\n' + list);
-      this.lists.splice(this.lists.findIndex(l => l._id === list._id), 1);
-    });
   }
 
   ionViewDidLoad() {
+    this.events.subscribe('list:removed', (list) => {
+      this.removeList(list);
+    });
 
+    this.events.subscribe('list:restored', (list) => {
+      this.removeList(list);
+    });
   }
 
   deleteAll() {
@@ -41,21 +42,29 @@ export class TrashPage {
           text: 'Delete',
           handler: () => {
             this.helpersService.showToast(msgs[1]);
-            this.lists.forEach(list => {
-              this.listsService.deleteList(list);
-            });
+            this.listsService.deleteLists(this.lists);
+            this.lists = [];
           }
         }
       ]
     });
-
     alert.present();
   }
 
   getLists() {
-    this.listsService.getLists().then(data => {
-      this.lists = JSON.parse(data).filter(list => list.removed);
-    });
+    this.listsService.getLists(true).then((lists) => {
+      this.lists = lists;
+    })
+      .catch(err => console.log(err));
+  }
+
+  ngOnInit() {
+    this.getLists();
+  }
+
+  removeList(list) {
+    let index = this.lists.findIndex(x => x._id === list._id);
+    this.lists.splice(index, 1);
   }
 
 }

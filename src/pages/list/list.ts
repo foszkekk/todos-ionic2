@@ -4,14 +4,16 @@ import {ListFormPage} from "../list-form/list-form";
 import {Lists} from "../../providers/lists";
 import {ViewListPage} from "../view-list/view-list";
 import {Helpers} from "../../providers/helpers";
+import {List} from "../../models/list";
 
 @Component({
   selector: 'page-list',
-  templateUrl: 'list.html'
+  templateUrl: 'list.html',
+
 })
 export class ListPage {
 
-  @Input('list') list = {};
+  @Input('list') list: List;
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
@@ -39,10 +41,14 @@ export class ListPage {
   toggleRemoved(list) {
     list.removed = !list.removed;
     this.listsService.updateList(list);
-    if (list.removed)
+    if (list.removed) {
       this.helpersService.showToast('List moved to trash');
-    else
-      this.helpersService.showToast('List restored from trash')
+      this.events.publish('list:trashed', list)
+    }
+    else {
+      this.helpersService.showToast('List restored from trash');
+      this.events.publish('list:restored', list);
+    }
   }
 
   deleteList(list) {
@@ -57,7 +63,7 @@ export class ListPage {
         {
           text: 'Delete',
           handler: () => {
-            this.events.publish('list:deleteForever', list);
+            this.events.publish('list:removed', list);
             this.listsService.deleteList(list);
             this.helpersService.showToast('List removed forever');
           }
@@ -71,8 +77,5 @@ export class ListPage {
     this.navCtrl.push(ViewListPage, {list: list});
   }
 
-  ionViewDidLoad() {
-
-  }
 
 }

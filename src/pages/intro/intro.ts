@@ -1,9 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {NavController, Slides, MenuController} from 'ionic-angular';
-import {Storage} from '@ionic/storage';
 import {ListsPage} from '../lists/lists';
 import {Settings} from "../../providers/settings";
-import set = Reflect.set;
 
 @Component({
   selector: 'page-intro',

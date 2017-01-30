@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Platform, Nav, ViewController} from 'ionic-angular';
+import {Platform, Nav} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {ListsPage} from "../pages/lists/lists";
 import {TrashPage} from "../pages/trash/trash";
@@ -28,8 +28,8 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      //StatusBar.styleDefault();
-      //Splashscreen.hide();
+      StatusBar.styleDefault();
+      Splashscreen.hide();
     });
 
     this.settingsService.getSettings().then(data => {
@@ -39,21 +39,17 @@ export class MyApp {
         this.rootPage = IntroPage;
     });
 
-    this.listsService.getLists().then(data => {
-      if (!data) {
+    this.listsService.getAllLists().then(lists => {
+      if (!lists)
         this.settingsService.clearData();
-      }
     });
-
   }
 
   openPage(name) {
     let p = PAGES.find(page => page.name === name);
     //check if current page is the same as one that user wants to open
     if (!(this.nav.getActive().instance instanceof p.component)) {
-      setTimeout(() => {
-        this.nav.setRoot(p.component, {}, {animate: true, direction: 'forward'});
-      }, 400);
+      this.nav.setRoot(p.component, {}, {animate: true, direction: 'forward'});
     }
 
   }

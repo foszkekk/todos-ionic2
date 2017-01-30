@@ -1,7 +1,12 @@
 import {Component} from '@angular/core';
 import {
-  NavController, NavParams, ModalController, ActionSheetController, Platform,
-  AlertController
+  NavController,
+  NavParams,
+  ModalController,
+  ActionSheetController,
+  Platform,
+  AlertController,
+  Events
 } from 'ionic-angular';
 import {ListFormPage} from "../list-form/list-form";
 import {Lists} from "../../providers/lists";
@@ -23,8 +28,8 @@ export class ViewListPage {
               public listsService: Lists,
               public actionSheetCtrl: ActionSheetController,
               public alertCtrl: AlertController,
-              public helpersService: Helpers) {
-    this.list = this.navParams.get('list');
+              public helpersService: Helpers,
+              public events: Events) {
   }
 
   listStatus() {
@@ -89,6 +94,7 @@ export class ViewListPage {
           icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
             list.removed = true;
+            this.events.publish('list:trashed', list);
             this.listsService.updateList(list);
             this.navCtrl.pop();
             this.helpersService.showToast(`${list.title} moved to trash`);
@@ -149,7 +155,10 @@ export class ViewListPage {
   }
 
   ionViewDidLoad() {
+  }
 
+  ngOnInit() {
+    this.list = this.navParams.get('list');
   }
 
 }

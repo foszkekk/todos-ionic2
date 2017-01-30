@@ -8,7 +8,7 @@ export class Settings {
   constructor(public storage: Storage) {
   }
 
-  getSettings() {
+  getSettings(): Promise<any> {
     return Promise.resolve(this.storage.get('settings').then(data => {
       if (data)
         return JSON.parse(data);

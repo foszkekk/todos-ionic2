@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams, ViewController} from 'ionic-angular';
+import {ViewController} from 'ionic-angular';
 import {Helpers} from "../../providers/helpers";
 
 @Component({
@@ -11,8 +11,7 @@ export class ColorpickerPage {
   colors = [];
   picked = null;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              public helpers: Helpers, public viewCtrl: ViewController) {
+  constructor(public helpers: Helpers, public viewCtrl: ViewController) {
     this.helpers.getColors().then(colors => {
       this.colors = colors;
     });

@@ -1,39 +1,36 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {ModalController, Events} from 'ionic-angular';
-import {ListPage} from '../list/list';
 import {ListFormPage} from "../list-form/list-form";
 import {Lists} from "../../providers/lists";
-import {ViewListPage} from "../view-list/view-list";
 import {Helpers} from "../../providers/helpers";
-
+import {List} from "../../models/list";
 
 @Component({
   selector: 'page-lists',
   templateUrl: 'lists.html'
 })
 export class ListsPage {
-
-  lists = [];
+  lists: List[] = [];
 
   constructor(public modalCtrl: ModalController,
               public listsService: Lists,
               public helpersService: Helpers,
               public events: Events) {
-    this.getLists();
   }
 
   ionViewDidLoad() {
-    this.events.subscribe('list:removed', (list)=>{
-      this.getLists();
-    })
+    this.events.subscribe('list:removed', (list) => {
+      this.removeList(list);
+    });
+
+    this.events.subscribe('list:trashed', (list) => {
+      this.removeList(list);
+    });
+
   }
 
   getLists() {
-    this.listsService.getLists().then(data => {
-      if (data) {
-        this.lists = JSON.parse(data).filter(list => !list.removed);
-      }
-    });
+    this.listsService.getLists(false).then(lists => this.lists = lists);
   }
 
   newList() {
@@ -41,12 +38,21 @@ export class ListsPage {
 
     modal.onDidDismiss(data => {
       if (data) {
-        this.lists.push(data.modalList);
         this.helpersService.showToast('List successfully added');
+        this.lists.push(data.modalList);
       }
     });
 
     modal.present();
+  }
+
+  ngOnInit() {
+    this.getLists();
+  }
+
+  removeList(list) {
+    let index = this.lists.findIndex(x => x._id === list._id);
+    this.lists.splice(index, 1);
   }
 
 }
